@@ -16,10 +16,8 @@ def send():
     s.send(bytes(new_msg, "utf8"))
     msg.set("")
     if new_msg == "/quit":
-        response = s.recv(1024).decode("utf8")
-        if response == "See you soon!" or not response:
-            s.close()
-            window.destroy()
+        s.close()
+        window.destroy()
     
 def quit_chat():
     msg.set("/quit")
@@ -36,29 +34,27 @@ def receive():
 
 
 msg_frame = tkinter.Frame(window, width = 100, height = 100, bg = "white")
-msg_frame.pack()
+msg_frame.grid()
 
 scroll_bar = tkinter.Scrollbar(msg_frame)
-scroll_bar.pack()
+scroll_bar.grid(row=0, column=1, sticky="ns")
 
 msg_zone = tkinter.Listbox(msg_frame, height = 15, width = 100, bg = "white", yscrollcommand = scroll_bar.set)
-scroll_bar.pack(side = tkinter.RIGHT, fill = tkinter.Y)
-msg_zone.pack(side = tkinter.LEFT, fill = tkinter.BOTH)
-msg_zone.pack()
+msg_zone.grid(row=0,column=0,sticky="nsew")
 
-send_zone = tkinter.Frame(window, width = 100, height= 15, bg="grey")
-send_zone.pack()
+send_zone = tkinter.Frame(window, width = 100, height= 15)
+send_zone.grid()
 
-label = tkinter.Label(send_zone, text="Message: ", fg="black", bg="white", justify= "left")
-label.pack()
+label = tkinter.Label(send_zone, text="Message: ")
+label.grid(row=0)
 entry = tkinter.Entry(send_zone, textvariable = msg, width="50")
-entry.pack()
+entry.grid(row=0, column=1)
 
 send_button = tkinter.Button(send_zone, text = "Send", font = "Aerial", fg="black", command = send)
-send_button.pack()
+send_button.grid(row=0, column=2)
 
 quit_button = tkinter.Button(send_zone, text = "Quit", font = "Aerial", fg="white", bg="black", command = quit_chat)
-quit_button.pack()
+quit_button.grid(row=0, column=3)
 
 host = "localhost"
 port = 8080
